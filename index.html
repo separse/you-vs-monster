@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <h1>Monster Slayer</h1>
+    <div class="container" id="app">
+        <section v-if="winner">
+            <div class="card">
+                <h2>{{ winner }} Win !!!</h2>
+            </div>
+            <button class="action-button" @click="rematch()">Rematch</button>
+        </section>
+
+
+        <section v-else>
+            <div class="card">
+                <h2>Monster Health</h2>
+                <div class="health-bar">
+                    <div class="health" :style="{ width: monsterHealth + '%' }"></div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Your Health</h2>
+                <div class="health-bar">
+                    <div class="health" :style="{ width: playerHealth + '%' }"></div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button class="action-button" @click="attackMonster(10, 20)">ATTACK</button>
+                <button v-if="move%3 === 0" class="action-button" @click="attackMonster(20, 30)">SPECIAL ATTACK</button>
+                <button v-else class="disable-button">SPECIAL ATTACK</button>
+                <button class="action-button" @click="heal">HEAL</button>
+                <button class="action-button" @click="surrender">SURRENDER</button>
+            </div>
+            <div class="card">
+                <h2>Battle Log</h2>
+                <p v-for="log in battleLog">
+                    <span v-if="log.action === 'Heal'">You Heal yourself for {{ log.count }}</span>
+                    <span v-else-if="log.actor === 'You'">You Damage Monster {{ log.count }}</span>
+                    <span v-else>Monster Damage you {{ log.count }}</span>
+                </p>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
